@@ -1,0 +1,4 @@
+The color royalblue / Royal blue (light) with hexadecimal color code #4169e1 is a shade of blue. 
+In the RGB color model #4169e1 is comprised of 25.49% red, 41.18% green and 88.24% blue. 
+In the HSL color space #4169e1 has a hue of 225° (degrees), 73% saturation and 57% lightness. 
+This color has an approximate wavelength of 470.14 nm.

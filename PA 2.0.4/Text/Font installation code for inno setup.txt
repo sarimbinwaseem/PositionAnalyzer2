@@ -1,0 +1,1 @@
+Source: "D:\Desktop\Position Analyzer 2.0.2\Font\RobotoCondensed-Regular.ttf"; DestDir: "{fonts}"; FontInstall: "Roboto"; Flags: onlyifdoesntexist uninsneveruninstall
