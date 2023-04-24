@@ -1,92 +1,97 @@
 import PyPDF2 
 import os
 import pickle
+from PyQt6.QtCore import QThread, pyqtSignal
+from result import Result
 
-def importingFile(path):
+class ReadFile(QThread):
 
-	try:
-		PDF_File = path
-		pdfFileObj = open(PDF_File, 'rb') 
-		pdfReader = PyPDF2.PdfFileReader(pdfFileObj) 
-	except OSError:
-		pass
-		
-	except FileNotFoundError:
-		pass
+	error = pyqtSignal(int)
 
-	except:
-		pass
+	def  __init__(self, filePath: str):
+		super().__init__()
+		self.filePath = filePath
 
+	def run(self):
 
-	else:  
-# printing number of pages in pdf file 
-		pages  = int(pdfReader.numPages)
-		totalpages = "Total number of pages in PDF:" + str(pages) 
-		
-		extracted_text = []
+		try:
+			# with open(self.filePath, 'rb') as pdfRawFile: 
+			pdfReader = PyPDF2.PdfReader(self.filePath)
 
-		with open("Result.pickle", "wb") as R_txt:
-			for i in range(pages): 	
-				# creating a page object 
-				pageObj = pdfReader.getPage(i)  
-				text = pageObj.extractText()
-				extracted_text.append(text)
-				
-			pickle.dump(extracted_text, R_txt)	
-			# print(extracted_text)
-		pdfFileObj.close()
-
-def check(obtMarksNum, totalNumbers):
-		
-	global alll
-	try:	
-		obt_number = obtMarksNum
-		tot_number = totalNumbers
+		except OSError:
+			self.error.emit(-1)
 			
-	except:
-		pass
-	else:
+		except FileNotFoundError:
+			self.error.emit(-2)
+
+		except Exception as e:
+			print(e)
+			self.error.emit(-3)
+		else:  
+
+
+			# printing number of pages in pdf file 
+			pages  = len(pdfReader.pages)
+			# print(type(pdfReader.pages))
+			totalpages = f"Total number of pages in PDF: {pages}"
+			
+			extracted_text = []
+
+			with open("Result.pickle", "wb") as R_txt:
+				for i in range(pages): 	
+					# creating a page object 
+					pageObj = pdfReader.pages[i]  
+					text = pageObj.extract_text()
+					extracted_text.append(text)
+
+				pickle.dump(extracted_text, R_txt)
+
+class Analyze:
+
+	def __init__(self, obtMarksNum: int, totalNumbers: int):
+
+		super().__init__()
+
+		self.obtMarksNum = obtMarksNum
+		self.totalNumbers = totalNumbers
+
+	def run(self):
 		
-		
-		noOfNumber = 0
+		result = Result()
+
 		line = "1 ahead........"
 		numb  = []
 		# pickle_obj = []
-		path = os.path.join(os.getcwd(), 'Result.pickle')
-		file = open(path, "rb")
-		pickle_obj = pickle.load(file)
-		# print(pickle_obj) 
-		results = []
+		# path = os.path.join(os.getcwd(), "Result.pickle")
+		
+		with open("Result.pickle", "rb") as file:
+			pickle_obj = pickle.load(file)
+
 		words = []
 		for w in pickle_obj:
 			words.append(w.split())
 			# print(words)
 
-		for number in range(obt_number + 1, tot_number):
+		for number in range(self.obtMarksNum + 1, self.totalNumbers):
 			ToSearch1 = "(" +str(number) + ")"
 			ToSearch2 = "(" +str(number) + "+" 
 			ToSearch3 = "(" +str(number) + "^"
-				
-				
+
+
 			for worde in words:
 				# print(word)
 				for word in worde:
 					if word.find(ToSearch1) != -1 or word.find(ToSearch2) != -1 or word.find(ToSearch3) != -1:
-						output = str(line) + " Scoring: "+ str(number) + " having " + str(round(((number/tot_number)*100),2)) + ' %.'
+						output = str(line) + " Scoring: "+ str(number) + " having " + str(round(((number/self.totalNumbers)*100),2)) + ' %.'
 						# print(output)
-						results.append(output)
+						result.results.append(output)
 						line = "1 more ahead..."
-						noOfNumber += 1
+						result.noOfNumber += 1
 						if number in numb:
 							pass
 						else:
 							numb.append(number)
-		# obtMarksNum = self.obtmarksedit.clear()
-		position = len(numb) + 1
-		# noOfNumber = students ahead
-		file.close()
-		alll = [results, position, noOfNumber]			
-		return alll
 
-
-		##################################################################################
+		result.position = len(numb) + 1
+			
+		return result

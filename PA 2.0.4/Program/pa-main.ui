@@ -286,6 +286,16 @@ border-width: 2px;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
+   <item>
+    <property name="text">
+     <string>XI</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>XII</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="selectClassLabel">
    <property name="geometry">
@@ -369,17 +379,17 @@ border-width: 2px;</string>
 </string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Plain</enum>
    </property>
    <widget class="QLabel" name="OnTopWaitLabel">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>401</width>
+      <width>411</width>
       <height>51</height>
      </rect>
     </property>
@@ -390,13 +400,13 @@ border-width: 2px;</string>
      </font>
     </property>
     <property name="cursor">
-     <cursorShape>WaitCursor</cursorShape>
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">color: white;</string>
     </property>
     <property name="text">
-     <string> Wait for a moment..Work in progress...</string>
+     <string>Ready...</string>
     </property>
    </widget>
   </widget>
