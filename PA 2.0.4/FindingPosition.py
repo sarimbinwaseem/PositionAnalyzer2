@@ -73,15 +73,15 @@ class Analyze:
 			# print(words)
 
 		for number in range(self.obtMarksNum + 1, self.totalNumbers):
-			ToSearch1 = "(" +str(number) + ")"
-			ToSearch2 = "(" +str(number) + "+" 
-			ToSearch3 = "(" +str(number) + "^"
+			toSearch1 = "(" + str(number) + ")"
+			toSearch2 = "(" + str(number) + "+" 
+			toSearch3 = "(" + str(number) + "^"
 
 
 			for worde in words:
 				# print(word)
 				for word in worde:
-					if word.find(ToSearch1) != -1 or word.find(ToSearch2) != -1 or word.find(ToSearch3) != -1:
+					if word.find(toSearch1) != -1 or word.find(toSearch2) != -1 or word.find(toSearch3) != -1:
 						output = str(line) + " Scoring: "+ str(number) + " having " + str(round(((number/self.totalNumbers)*100),2)) + ' %.'
 						# print(output)
 						result.results.append(output)
