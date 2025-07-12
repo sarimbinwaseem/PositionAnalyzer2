@@ -32,6 +32,8 @@ class Ui(QtWidgets.QDialog):
 
     def browse(self):
 
+    	"""Browse pdf files for reading"""
+
         self.OnTopWaitLabel.setText(" Wait for a moment..Work in progress...")
         print("Getting The file path")
         self.file, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -54,9 +56,15 @@ class Ui(QtWidgets.QDialog):
         # Check for existing result file
 
     def pdf_error(self, code):
+
+    	"""Print error for pdf reading"""
+
         print(f"PDF ERROR: {code}")
 
     def readingFinished(self):
+
+    	"""When pdf reading finishes"""
+
         print("Reading Done.")
         self.startButton.setEnabled(True)
         pickle_path = os.path.join(os.getcwd(), "Result.pickle")
@@ -68,6 +76,9 @@ class Ui(QtWidgets.QDialog):
         self.startButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
 
     def startTheShow(self):
+
+    	"""Starting number crunching on pdf data"""
+
 
         self.OnTopWaitLabel.setText("Working...")
 
@@ -97,6 +108,8 @@ class Ui(QtWidgets.QDialog):
         self.analyze.start()
 
     def return_result(self, result: list):
+
+    	"""When pdf data is done analyzing"""
 
         self.done = result[0]
         print("Done")
