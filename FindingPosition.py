@@ -1,7 +1,9 @@
-import PyPDF2 
 import os
 import pickle
+
+import pypdf 
 from PyQt6.QtCore import QThread, pyqtSignal
+
 from result import Result
 
 class ReadFile(QThread):
@@ -16,7 +18,7 @@ class ReadFile(QThread):
 
 		try:
 			# with open(self.filePath, 'rb') as pdfRawFile: 
-			pdfReader = PyPDF2.PdfReader(self.filePath)
+			pdfReader = pypdf.PdfReader(self.filePath)
 
 		except OSError:
 			self.error.emit(-1)
@@ -46,7 +48,9 @@ class ReadFile(QThread):
 
 				pickle.dump(extracted_text, R_txt)
 
-class Analyze:
+class Analyze(QThread):
+
+	result = pyqtSignal(list)
 
 	def __init__(self, obtMarksNum: int, totalNumbers: int):
 
@@ -94,4 +98,4 @@ class Analyze:
 
 		result.position = len(numb) + 1
 			
-		return result
+		self.result.emit([result])
